@@ -1,14 +1,20 @@
 package com.harmoush.todo;
 
+import com.harmoush.error.ConflictException;
+import com.harmoush.error.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.NoSuchElementException;
 
 @Service
 public class TodoService {
 
     private final TodoRepository todoRepository;
 
+    @Autowired
     public TodoService(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
@@ -28,8 +34,13 @@ public class TodoService {
      * @param id Todo
      * @return TodoTask
      */
-    public Todo getTodoById(String id) {
-        return todoRepository.findById(id).orElseGet(null);
+    public Todo getTodoById(String id) throws NotFoundException {
+        try {
+            return todoRepository.findById(id).get();
+        } catch (NoSuchElementException ex) {
+            String message = String.format(Locale.ROOT, "This record with id %s not found in our db.", id);
+            throw new NotFoundException(message);
+        }
     }
 
     /**
@@ -39,6 +50,10 @@ public class TodoService {
      * @return insertedTodo
      */
     public Todo addNewTodo(Todo todo) {
+        if (todoRepository.findByTitle(todo.getTitle()) != null) {
+            String message = String.format(Locale.ROOT, "This record with title {%s} already exist in our db.", todo.getTitle());
+            throw new ConflictException(message);
+        }
         return todoRepository.insert(todo);
     }
 

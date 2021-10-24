@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Document(collection = "Todos")
 public class Todo {
@@ -22,17 +23,17 @@ public class Todo {
     @NotBlank(message = "Description shouldn't be empty or blank.")
     private String description;
 
-    private long timestamp;
+    private LocalDateTime timestamp;
 
     public Todo() {
-        this.timestamp = System.currentTimeMillis();
+        this.timestamp = LocalDateTime.now();
     }
 
     public Todo(String id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.timestamp = System.currentTimeMillis();
+        this.timestamp = LocalDateTime.now();
     }
 
     public String getId() {
@@ -59,11 +60,11 @@ public class Todo {
         this.description = description;
     }
 
-    public long getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 }
