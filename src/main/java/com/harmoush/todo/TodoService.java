@@ -12,12 +12,8 @@ import java.util.NoSuchElementException;
 @Service
 public class TodoService {
 
-    private final TodoRepository todoRepository;
-
     @Autowired
-    public TodoService(TodoRepository todoRepository) {
-        this.todoRepository = todoRepository;
-    }
+    private TodoRepository todoRepository;
 
     /**
      * Get all Todo
