@@ -1,5 +1,6 @@
 package com.harmoush.todo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,6 +24,7 @@ public class Todo {
     @NotBlank(message = "Description shouldn't be empty or blank.")
     private String description;
 
+    @JsonIgnore
     private LocalDateTime timestamp;
 
     public Todo() {
