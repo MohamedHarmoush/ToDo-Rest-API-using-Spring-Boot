@@ -1,6 +1,8 @@
 package com.harmoush.todo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -66,7 +68,8 @@ class TodoControllerTest {
 
         BDDMockito.given(todoService.addNewTodo(Mockito.any(Todo.class))).willReturn(todo);
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper()
+                .registerModule(new JavaTimeModule());
         mockMvc.perform(
                         post("/api/v1/todos").contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(todo))
