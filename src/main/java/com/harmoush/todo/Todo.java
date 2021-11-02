@@ -25,6 +25,8 @@ public class Todo {
 
     private LocalDateTime timestamp;
 
+    private String userId;
+
     public Todo() {
         this.timestamp = LocalDateTime.now();
     }
@@ -66,5 +68,13 @@ public class Todo {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

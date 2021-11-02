@@ -16,6 +16,15 @@ public class TodoService {
     private TodoRepository todoRepository;
 
     /**
+     * Get all Todo for specific user
+     *
+     * @return list of todos
+     */
+
+    public List<Todo> findAllTodosByUser(String userId) {
+        return todoRepository.findAllByUserId(userId);
+    }
+    /**
      * Get all Todo
      *
      * @return list of todos

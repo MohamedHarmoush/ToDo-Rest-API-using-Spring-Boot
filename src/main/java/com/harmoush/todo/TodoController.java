@@ -1,5 +1,6 @@
 package com.harmoush.todo;
 
+import com.harmoush.BaseController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/todos")
-public class TodoController {
+public class TodoController extends BaseController {
 
     private final TodoService todoService;
 
@@ -19,7 +20,7 @@ public class TodoController {
 
     @GetMapping(value = {"/", ""})
     public ResponseEntity<List<Todo>> getAllTodos() {
-        List<Todo> result = todoService.findAllTodos();
+        List<Todo> result = todoService.findAllTodosByUser(getCurrentUser().getId());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -31,6 +32,7 @@ public class TodoController {
 
     @PostMapping(value = {"/", ""})
     public ResponseEntity<Todo> createTodo(@Valid @RequestBody Todo todo) {
+        todo.setUserId(getCurrentUser().getId());
         Todo result = todoService.addNewTodo(todo);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
